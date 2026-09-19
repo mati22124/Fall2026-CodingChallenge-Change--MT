@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router";
+import { Link, Routes, Route } from "react-router";
 import { onAuthStateChanged, signInWithPopup, signOut, GoogleAuthProvider, type User } from "firebase/auth";
-import { Button, Center, Container, Group, Text } from "@mantine/core";
+import { Anchor, Button, Center, Container, Group, Text } from "@mantine/core";
 import { auth } from "./firebase";
+import CollectionsPage from "./pages/CollectionsPage";
+import SearchPage from "./pages/SearchPage";
+import CollectionPage from "./pages/CollectionPage";
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -21,11 +24,19 @@ export default function App() {
   return (
     <Container py="md">
       <Group justify="space-between" mb="lg">
-        <Text>{user.email}</Text>
-        <Button variant="subtle" onClick={() => signOut(auth)}>Sign out</Button>
+        <Group>
+          <Anchor component={Link} to="/">Collections</Anchor>
+          <Anchor component={Link} to="/search">Search</Anchor>
+        </Group>
+        <Group>
+          <Text>{user.email}</Text>
+          <Button variant="subtle" onClick={() => signOut(auth)}>Sign out</Button>
+        </Group>
       </Group>
       <Routes>
-        <Route path="/" element={<Text>Collections go here</Text>} />
+        <Route path="/" element={<CollectionsPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/collections/:id" element={<CollectionPage />} />
       </Routes>
     </Container>
   );
