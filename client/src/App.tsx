@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, Routes, Route } from "react-router";
 import { onAuthStateChanged, signInWithPopup, signOut, GoogleAuthProvider, type User } from "firebase/auth";
-import { Anchor, Button, Center, Container, Group, Text } from "@mantine/core";
+import { AppShell, Button, Center, Container, Group, Stack, Text, Title } from "@mantine/core";
 import { auth } from "./firebase";
 import CollectionsPage from "./pages/CollectionsPage";
 import SearchPage from "./pages/SearchPage";
@@ -16,34 +16,53 @@ export default function App() {
 
   const signIn = () => signInWithPopup(auth, new GoogleAuthProvider());
 
-  // Signed out: public collections are still viewable, everything else shows the sign-in button.
+  // Signed out: public collections are still viewable, everything else shows the sign-in screen.
   if (!user) {
     return (
       <Routes>
         <Route path="/public/:id" element={<PublicPage />} />
-        <Route path="*" element={<Center h="100vh"><Button onClick={signIn}>Sign in with Google</Button></Center>} />
+        <Route
+          path="*"
+          element={
+            <Center h="100vh">
+              <Stack align="center">
+                <Title>Collections</Title>
+                <Text c="dimmed">Save and share the images you love.</Text>
+                <Button onClick={signIn}>Sign in with Google</Button>
+              </Stack>
+            </Center>
+          }
+        />
       </Routes>
     );
   }
 
+  // Signed in: a fixed header bar with nav, and the current page below it.
   return (
-    <Container py="md">
-      <Group justify="space-between" mb="lg">
-        <Group>
-          <Anchor component={Link} to="/">Collections</Anchor>
-          <Anchor component={Link} to="/search">Search</Anchor>
+    <AppShell header={{ height: 56 }} padding="md">
+      <AppShell.Header px="md">
+        <Group h="100%" justify="space-between">
+          <Group gap="xs">
+            <Title order={4} mr="sm">Collections</Title>
+            <Button variant="subtle" component={Link} to="/">Home</Button>
+            <Button variant="subtle" component={Link} to="/search">Search</Button>
+          </Group>
+          <Group>
+            <Text size="sm" c="dimmed">{user.email}</Text>
+            <Button variant="default" size="xs" onClick={() => signOut(auth)}>Sign out</Button>
+          </Group>
         </Group>
-        <Group>
-          <Text>{user.email}</Text>
-          <Button variant="subtle" onClick={() => signOut(auth)}>Sign out</Button>
-        </Group>
-      </Group>
-      <Routes>
-        <Route path="/" element={<CollectionsPage />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/collections/:id" element={<CollectionPage />} />
-        <Route path="/public/:id" element={<PublicPage />} />
-      </Routes>
-    </Container>
+      </AppShell.Header>
+      <AppShell.Main>
+        <Container size="lg" py="md">
+          <Routes>
+            <Route path="/" element={<CollectionsPage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/collections/:id" element={<CollectionPage />} />
+            <Route path="/public/:id" element={<PublicPage />} />
+          </Routes>
+        </Container>
+      </AppShell.Main>
+    </AppShell>
   );
 }

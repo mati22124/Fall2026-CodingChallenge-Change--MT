@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "react-router";
-import { Button, Card, Group, Image, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
+import { Badge, Button, Card, Group, Image, SimpleGrid, Stack, Text, TextInput, Title } from "@mantine/core";
 import { api } from "../api";
 import type { Collection } from "../types";
 
@@ -12,23 +12,33 @@ export default function CollectionsPage() {
   const load = () => api("/collections").then(setCollections);
   useEffect(() => { load(); }, []);
 
-  const create = async () => {
+  const create = async (e: FormEvent) => {
+    e.preventDefault(); // keep the browser from reloading the page on submit
     await api("/collections", "POST", { name });
     setName("");
     load();
   };
 
   return (
-    <Stack>
-      <Group>
-        <TextInput placeholder="New collection name" value={name} onChange={(e) => setName(e.target.value)} />
-        <Button onClick={create}>Create</Button>
-      </Group>
-      <SimpleGrid cols={{ base: 1, sm: 3 }}>
+    <Stack gap="lg">
+      <Title order={2}>My collections</Title>
+      <form onSubmit={create}>
+        <Group>
+          <TextInput placeholder="New collection name" value={name} onChange={(e) => setName(e.target.value)} flex={1} />
+          <Button type="submit" disabled={!name}>Create</Button>
+        </Group>
+      </form>
+      {collections.length === 0 && <Text c="dimmed">No collections yet. Create one above.</Text>}
+      <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }}>
         {collections.map((c) => (
-          <Card key={c.id} component={Link} to={`/collections/${c.id}`} withBorder>
-            <Card.Section><Image src={c.images[0]?.url} h={160} loading="lazy" /></Card.Section>
-            <Text fw={500} mt="sm">{c.name}</Text>
+          <Card key={c.id} component={Link} to={`/collections/${c.id}`} withBorder shadow="sm">
+            <Card.Section h={160} bg="gray.1">
+              {c.images[0] && <Image src={c.images[0].url} h={160} loading="lazy" />}
+            </Card.Section>
+            <Group justify="space-between" mt="sm">
+              <Text fw={500}>{c.name}</Text>
+              {c.isPublic && <Badge variant="light" color="green">Public</Badge>}
+            </Group>
             <Text size="sm" c="dimmed">{c.images.length} images</Text>
           </Card>
         ))}
