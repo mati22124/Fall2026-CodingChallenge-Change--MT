@@ -32,7 +32,7 @@ export default function CollectionsPage() {
       <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }}>
         {collections.map((c) => (
           <Card key={c.id} component={Link} to={`/collections/${c.id}`} withBorder shadow="sm">
-            <Card.Section h={160} bg="gray.1">
+            <Card.Section h={160} bg="var(--mantine-color-default-hover)">
               {c.images[0] && <Image src={c.images[0].url} h={160} loading="lazy" />}
             </Card.Section>
             <Group justify="space-between" mt="sm">

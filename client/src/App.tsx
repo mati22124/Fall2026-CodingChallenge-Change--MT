@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, Routes, Route } from "react-router";
 import { onAuthStateChanged, signInWithPopup, signOut, GoogleAuthProvider, type User } from "firebase/auth";
-import { AppShell, Button, Center, Container, Group, Stack, Text, Title } from "@mantine/core";
+import { AppShell, Button, Center, Container, Group, Stack, Text, Title, useMantineColorScheme } from "@mantine/core";
 import { auth } from "./firebase";
 import CollectionsPage from "./pages/CollectionsPage";
 import SearchPage from "./pages/SearchPage";
@@ -10,6 +10,7 @@ import PublicPage from "./pages/PublicPage";
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme(); // Mantine remembers the choice in localStorage
 
   // Firebase calls setUser whenever someone signs in or out.
   useEffect(() => onAuthStateChanged(auth, setUser), []);
@@ -49,6 +50,7 @@ export default function App() {
           </Group>
           <Group>
             <Text size="sm" c="dimmed">{user.email}</Text>
+            <Button variant="default" size="xs" onClick={toggleColorScheme}>{colorScheme === "dark" ? "Light" : "Dark"}</Button>
             <Button variant="default" size="xs" onClick={() => signOut(auth)}>Sign out</Button>
           </Group>
         </Group>
