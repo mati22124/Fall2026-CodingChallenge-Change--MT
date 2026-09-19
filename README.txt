@@ -4,6 +4,16 @@ Name:  [YOUR FULL NAME]
 Email: [YOUR VANDERBILT EMAIL]
 
 
+LIVE DEMO
+---------
+App:               https://fall2026-codingchallenge-change-mt.onrender.com/
+Public collection: https://fall2026-codingchallenge-change-mt.onrender.com/public/WOIhR9uJdQR0stnD5opo
+
+Note: this is on Render's free tier, which spins the server down after
+inactivity. The first request can take about a minute to wake it up. If a
+page looks stuck, wait a minute and refresh.
+
+
 WHAT IT DOES
 ------------
 A Pinterest-style app. Sign in with Google, create collections, search Pixabay,
