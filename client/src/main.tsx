@@ -14,3 +14,10 @@ createRoot(document.getElementById("root")!).render(
     </MantineProvider>
   </StrictMode>,
 );
+
+
+// tried to keep this as flat as possible, as simple as possible using claude code
+// I think that I definitely could have been more involved in the development 
+// and structure of the app, but I also think I was able to create a polished,
+// simple, and functional app that meets the requirements of the project in a short
+// amount of time. I definetly think the structure of the app is clean as well.
