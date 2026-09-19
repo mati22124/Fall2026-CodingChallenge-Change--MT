@@ -7,7 +7,7 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
   const token = req.headers.authorization?.replace("Bearer ", "") ?? "";
   try {
     const user = await auth.verifyIdToken(token);
-    res.locals.email = user.email;
+    res.locals.email = user.email?.toLowerCase(); // lowercase so sharing is not case-sensitive
     next();
   } catch {
     res.status(401).json({ error: "Please sign in" });

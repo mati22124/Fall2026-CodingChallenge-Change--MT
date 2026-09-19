@@ -69,7 +69,7 @@ router.delete("/:id/images/:imageId", async (req, res) => {
 // POST /api/collections/:id/share { email } → let another user view and edit
 router.post("/:id/share", async (req, res) => {
   const { ref } = await getCollection(req.params.id, res.locals.email);
-  await ref.update({ members: FieldValue.arrayUnion(req.body.email) });
+  await ref.update({ members: FieldValue.arrayUnion(req.body.email.toLowerCase()) });
   res.json({ ok: true });
 });
 
