@@ -6,6 +6,7 @@ import { auth } from "./firebase";
 import CollectionsPage from "./pages/CollectionsPage";
 import SearchPage from "./pages/SearchPage";
 import CollectionPage from "./pages/CollectionPage";
+import PublicPage from "./pages/PublicPage";
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -13,11 +14,15 @@ export default function App() {
   // Firebase calls setUser whenever someone signs in or out.
   useEffect(() => onAuthStateChanged(auth, setUser), []);
 
+  const signIn = () => signInWithPopup(auth, new GoogleAuthProvider());
+
+  // Signed out: public collections are still viewable, everything else shows the sign-in button.
   if (!user) {
     return (
-      <Center h="100vh">
-        <Button onClick={() => signInWithPopup(auth, new GoogleAuthProvider())}>Sign in with Google</Button>
-      </Center>
+      <Routes>
+        <Route path="/public/:id" element={<PublicPage />} />
+        <Route path="*" element={<Center h="100vh"><Button onClick={signIn}>Sign in with Google</Button></Center>} />
+      </Routes>
     );
   }
 
@@ -37,6 +42,7 @@ export default function App() {
         <Route path="/" element={<CollectionsPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/collections/:id" element={<CollectionPage />} />
+        <Route path="/public/:id" element={<PublicPage />} />
       </Routes>
     </Container>
   );

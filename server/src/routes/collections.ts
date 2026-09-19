@@ -6,7 +6,7 @@ const router = Router();
 const collections = db.collection("collections");
 
 // Each collection document looks like:
-// { name: string, members: string[] (emails), images: { id, url, tags }[], createdAt: number }
+// { name: string, members: string[] (emails), images: { id, url, tags }[], isPublic: boolean, createdAt: number }
 
 // Fetches one collection and makes sure the current user is a member of it.
 async function getCollection(id: string, email: string) {
@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
 
 // POST /api/collections { name } → create a collection owned by the user
 router.post("/", async (req, res) => {
-  const collection = { name: req.body.name, members: [res.locals.email], images: [], createdAt: Date.now() };
+  const collection = { name: req.body.name, members: [res.locals.email], images: [], isPublic: false, createdAt: Date.now() };
   const doc = await collections.add(collection);
   res.json({ id: doc.id, ...collection });
 });
@@ -37,10 +37,10 @@ router.get("/:id", async (req, res) => {
   res.json({ id: req.params.id, ...data });
 });
 
-// PATCH /api/collections/:id { name } → rename a collection
+// PATCH /api/collections/:id { name?, isPublic? } → edit a collection's settings
 router.patch("/:id", async (req, res) => {
   const { ref } = await getCollection(req.params.id, res.locals.email);
-  await ref.update({ name: req.body.name });
+  await ref.update(req.body);
   res.json({ ok: true });
 });
 

@@ -30,14 +30,23 @@ export default function CollectionPage() {
     navigate("/");
   };
 
+  const togglePublic = async () => {
+    await api(`/collections/${id}`, "PATCH", { isPublic: !collection?.isPublic });
+    load();
+  };
+
   if (!collection) return null;
 
   return (
     <Stack>
       <Group justify="space-between">
         <Title order={2}>{collection.name}</Title>
-        <Button color="red" variant="light" onClick={deleteCollection}>Delete collection</Button>
+        <Group>
+          <Button variant="light" onClick={togglePublic}>{collection.isPublic ? "Make private" : "Make public"}</Button>
+          <Button color="red" variant="light" onClick={deleteCollection}>Delete collection</Button>
+        </Group>
       </Group>
+      {collection.isPublic && <Text size="sm">Public link: {window.location.origin}/public/{id}</Text>}
       <Group>
         <TextInput placeholder="Share with email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <Button onClick={share}>Share</Button>

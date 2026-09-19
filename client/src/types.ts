@@ -11,4 +11,5 @@ export interface Collection {
   name: string;
   members: string[];
   images: Photo[];
+  isPublic: boolean;
 }
