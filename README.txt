@@ -85,6 +85,16 @@ server/src/middleware/    the auth check
 server/src/firebase.ts    Firebase admin setup
 
 
+KNOWN LIMITATIONS
+-----------------
+The Firestore security rules are currently set to allow all reads and writes,
+so the database is effectively public. I am aware of this. All access in this
+app goes through the Express server using the Firebase admin SDK, which
+bypasses security rules entirely, so the server's membership check is the
+only real protection right now. Proper rules are something I would write
+before real use.
+
+
 REFLECTION
 ----------
 The challenge was definetly insightful and helped me brush up my react and 
