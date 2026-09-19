@@ -20,4 +20,4 @@ createRoot(document.getElementById("root")!).render(
 // I think that I definitely could have been more involved in the development 
 // and structure of the app, but I also think I was able to create a polished,
 // simple, and functional app that meets the requirements of the project in a short
-// amount of time. I definetly think the structure of the app is clean as well.
+// amount of time. I definitely think the structure of the app is clean as well.
