@@ -27,7 +27,7 @@ export default function CollectionsPage() {
       <SimpleGrid cols={{ base: 1, sm: 3 }}>
         {collections.map((c) => (
           <Card key={c.id} component={Link} to={`/collections/${c.id}`} withBorder>
-            <Card.Section><Image src={c.images[0]?.url} h={160} /></Card.Section>
+            <Card.Section><Image src={c.images[0]?.url} h={160} loading="lazy" /></Card.Section>
             <Text fw={500} mt="sm">{c.name}</Text>
             <Text size="sm" c="dimmed">{c.images.length} images</Text>
           </Card>

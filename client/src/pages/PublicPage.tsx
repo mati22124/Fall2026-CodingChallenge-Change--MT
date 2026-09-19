@@ -20,7 +20,7 @@ export default function PublicPage() {
         <SimpleGrid cols={{ base: 2, sm: 4 }}>
           {collection.images.map((photo) => (
             <Card key={photo.id} withBorder>
-              <Card.Section><Image src={photo.url} h={160} /></Card.Section>
+              <Card.Section><Image src={photo.url} h={160} loading="lazy" /></Card.Section>
             </Card>
           ))}
         </SimpleGrid>

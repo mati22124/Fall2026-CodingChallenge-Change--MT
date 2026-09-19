@@ -14,9 +14,10 @@ export default function CollectionPage() {
   const load = () => api(`/collections/${id}`).then(setCollection);
   useEffect(() => { load(); }, [id]);
 
-  const remove = async (imageId: number) => {
-    await api(`/collections/${id}/images/${imageId}`, "DELETE");
-    load();
+  // Optimistic: update the screen right away, then tell the server.
+  const remove = (imageId: number) => {
+    setCollection((c) => c && { ...c, images: c.images.filter((p) => p.id !== imageId) });
+    api(`/collections/${id}/images/${imageId}`, "DELETE");
   };
 
   const share = async () => {
@@ -55,7 +56,7 @@ export default function CollectionPage() {
       <SimpleGrid cols={{ base: 2, sm: 4 }}>
         {collection.images.map((photo) => (
           <Card key={photo.id} withBorder>
-            <Card.Section><Image src={photo.url} h={160} /></Card.Section>
+            <Card.Section><Image src={photo.url} h={160} loading="lazy" /></Card.Section>
             <Button mt="sm" size="xs" color="red" variant="light" onClick={() => remove(photo.id)}>Remove</Button>
           </Card>
         ))}

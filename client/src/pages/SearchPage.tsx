@@ -30,7 +30,7 @@ export default function SearchPage() {
       <SimpleGrid cols={{ base: 2, sm: 4 }}>
         {results.map((photo) => (
           <Card key={photo.id} withBorder>
-            <Card.Section><Image src={photo.url} h={160} /></Card.Section>
+            <Card.Section><Image src={photo.url} h={160} loading="lazy" /></Card.Section>
             <Button mt="sm" size="xs" disabled={!target} onClick={() => save(photo)}>Save</Button>
           </Card>
         ))}
