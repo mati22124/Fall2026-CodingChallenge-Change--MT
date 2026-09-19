@@ -1,7 +1,7 @@
 Change++ Fall 2026 Coding Challenge - Image Collections App
 
-Name:  [YOUR FULL NAME]
-Email: [YOUR VANDERBILT EMAIL]
+Name:  Mayank Tiku
+Email: mayank.tiku@vanderbilt.edu
 
 
 LIVE DEMO
@@ -87,9 +87,18 @@ server/src/firebase.ts    Firebase admin setup
 
 REFLECTION
 ----------
-[Under 100 words: what you learned, what was reinforced, any issues.]
+The challenge was definetly insightful and helped me brush up my react and 
+deployment skills. I also deeply integrated agentic tooling (claude code) 
+into this development lifecycle, which strengthen my ability to develop
+alongside agents while still controlling decisions and features. I learned 
+how to host a backend using express and node, since most times I have used 
+serverless backends (like firebase). Overall, I am happty I more about web 
+development than I did before.
 
 
 FEEDBACK
 --------
-[Optional: thoughts on the challenge, workshops, or office hours.]
+I feel the README.md file was very transparent, and is too easy to put into 
+an agent to get a clean and well designed website with all the functionality.
+If the README was a bit shorter, or an exact rubric wasn't published, it would
+allow for easier differentiation between projects.
